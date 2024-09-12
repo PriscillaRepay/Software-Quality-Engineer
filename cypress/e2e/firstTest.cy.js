@@ -85,7 +85,7 @@ describe('First Test Suit', () => {
        cy.get('@usingtheGrid').find('[for="inputEmail1"]').should('contain', 'Email');
        cy.get('@usingtheGrid').find('[for="inputPassword2"]').should('contain', 'Password');
 
-       //Approche 1 - Use cypress then() methods 
+       //Approche 2 - Use cypress then() methods 
        cy.contains('nb-card','Using the Grid').then(usingtheGridForm => {
         cy.wrap(usingtheGridForm).find('[for="inputEmail1"]').should('contain', 'Email');
         cy.wrap(usingtheGridForm).find('[for="inputPassword2"]').should('contain', 'Password');
@@ -97,8 +97,29 @@ describe('First Test Suit', () => {
         });
 
     });
+
+    it.only('Extract text values', () => {
+
+        cy.contains('Forms').click();
+        cy.contains('Form Layouts').click();
+
+        //Simple way -> element web contain the text
+        //cy.get('[for="exampleInputEmail1"]'). should('contain', 'Email address');
+        //cy.get('[for="exampleInputPassword1"]'). should('contain', 'Password');
+        //cy.get('label.label').find('[class="text"]').contains('Check me out');
+
+        //Save the value o text in variable
+        cy.get('[for="exampleInputEmail1"]').then(label => { 
+            //don't need to wrap the label object because JQuery objects have the method text
+            const labelText = label.text();
+            expect(labelText).to.equal('Email address'); //Jquery assertion
+            
+            //Wraping the object to use cypress assertion
+            cy.wrap(label).should('contain', 'Email address')
+        });
+    });
  
-    it.only('Radio Buttons', () => {    
+    it('Radio Buttons', () => {    
         cy.contains('Forms').click();
         cy.contains('Form Layouts').click();
         cy.contains('nb-card','Using the Grid').find('[type="radio"]').then(radioButtons => {
