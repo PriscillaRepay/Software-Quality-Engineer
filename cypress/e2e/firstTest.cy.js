@@ -114,7 +114,7 @@ describe('First Test Suit', () => {
             const labelText = label.text();
             expect(labelText).to.equal('Email address'); //Jquery assertion
             
-            //Wraping the object to use cypress assertion command
+            //Wraping the object to use cypress assertion
             cy.wrap(label).should('contain', 'Email address')
         });
     });
